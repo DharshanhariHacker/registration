@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Solve4Society Hackathon</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <!-- Font Awesome for social media icons (ensure this is loaded for icons to show) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* General styling */
+        /* General styling for the entire page */
         * {
             margin: 0;
             padding: 0;
@@ -14,84 +16,84 @@
         }
 
         html, body {
-            min-height: 100%;
+            min-height: 100%; /* Ensure body takes at least full viewport height */
             font-family: 'Orbitron', sans-serif;
-            background: #000;
-            color: #fff;
-            scroll-behavior: smooth;
-            overflow-x: hidden; /* Prevent horizontal scroll due to canvas */
+            background: #000; /* Black background */
+            color: #fff; /* White text color */
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+            overflow-x: hidden; /* Prevent horizontal scrollbar due to canvas */
         }
 
-        /* Canvas for matrix animation */
+        /* Styling for the matrix background canvas */
         canvas {
-            position: fixed; /* Fixed position to cover the whole viewport */
+            position: fixed; /* Fixed position to cover the entire viewport */
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1; /* Behind other content */
+            width: 100vw; /* Take full viewport width */
+            height: 100vh; /* Take full viewport height */
+            z-index: 1; /* Place behind other content */
         }
 
         /* Navigation bar styling */
         nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background: rgba(0, 0, 0, 0.85); /* Slightly transparent background */
-            position: fixed; /* Fixed at the top */
+            display: flex; /* Use flexbox for layout */
+            justify-content: space-between; /* Space out items */
+            align-items: center; /* Vertically align items */
+            padding: 1rem 2rem; /* Padding around the nav content */
+            background: rgba(0, 0, 0, 0.85); /* Semi-transparent black background */
+            position: fixed; /* Fixed at the top of the viewport */
             top: 0;
-            width: 100%;
-            z-index: 1000; /* On top of everything */
-            border-bottom: 2px solid #0ff; /* Neon border */
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.7); /* Glow effect */
+            width: 100%; /* Full width */
+            z-index: 1000; /* Ensure it's on top of all other content */
+            border-bottom: 2px solid #0ff; /* Neon blue border at the bottom */
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.7); /* Glow effect for the nav bar */
         }
 
         nav h1 {
-            color: #0ff; /* Neon blue color */
+            color: #0ff; /* Neon blue color for the title */
             font-size: 1.5rem;
-            text-shadow: 0 0 10px #0ff; /* Text glow */
+            text-shadow: 0 0 10px #0ff; /* Text glow effect */
         }
 
         nav div a {
-            color: #fff;
-            margin-left: 1.5rem;
-            text-decoration: none;
-            transition: color 0.3s, text-shadow 0.3s; /* Smooth transitions */
-            padding: 0.5rem 0.8rem; /* Add padding for better click area */
-            border-radius: 5px; /* Slightly rounded corners */
+            color: #fff; /* White text for navigation links */
+            margin-left: 1.5rem; /* Space between links */
+            text-decoration: none; /* Remove underline */
+            transition: color 0.3s, text-shadow 0.3s; /* Smooth transition on hover */
+            padding: 0.5rem 0.8rem; /* Padding for larger clickable area */
+            border-radius: 5px; /* Slightly rounded corners for links */
         }
 
         nav div a:hover {
-            color: #0ff; /* Change color on hover */
+            color: #0ff; /* Change link color to neon blue on hover */
             text-shadow: 0 0 8px #0ff; /* Add glow on hover */
         }
 
-        /* Section general styling */
+        /* Styling for all sections */
         section {
-            padding: 8rem 2rem 5rem; /* Increased top padding to account for fixed nav */
-            position: relative;
-            z-index: 10; /* Above the matrix background */
-            background: rgba(0, 0, 0, 0.7); /* Semi-transparent black for content readability */
-            margin-top: 0; /* No margin on top */
-            min-height: fit-content; /* Ensure sections take enough height for content */
+            padding: 8rem 2rem 5rem; /* Increased top padding to account for fixed nav bar */
+            position: relative; /* Needed for z-index to work */
+            z-index: 10; /* Place above the matrix background */
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background for content readability */
+            margin-top: 0; /* No extra margin at the top */
+            min-height: fit-content; /* Ensure section takes enough height for its content */
         }
 
         /* Hero section specific styling */
         .hero {
-            min-height: 100vh;
+            min-height: 100vh; /* Make hero section take full viewport height */
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column; /* Stack content vertically */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
             text-align: center;
-            padding-top: 0; /* No extra padding for hero */
+            padding-top: 0; /* No additional top padding for hero */
         }
 
         .hero h2 {
-            font-size: 3.5rem; /* Slightly larger for impact */
+            font-size: 3.5rem; /* Large font size for hero title */
             color: #0ff;
-            text-shadow: 0 0 20px #0ff, 0 0 30px #0ff; /* More intense glow */
+            text-shadow: 0 0 20px #0ff, 0 0 30px #0ff; /* Intense neon glow */
             animation: pulse 2s infinite alternate; /* Subtle pulse animation */
         }
 
@@ -101,99 +103,158 @@
         }
 
         .hero p {
-            font-size: 1.3rem; /* Slightly larger text */
+            font-size: 1.3rem;
             margin-top: 1.5rem;
-            max-width: 700px; /* Wider text block */
+            max-width: 700px; /* Max width for hero paragraph */
             color: #ccc;
             line-height: 1.8;
         }
 
-        /* Button styling */
+        /* Styling for general buttons */
         .btn {
-            margin-top: 2.5rem; /* More space above button */
-            padding: 1.2rem 2.5rem; /* Larger button */
+            margin-top: 2.5rem;
+            padding: 1.2rem 2.5rem; /* Larger button padding */
             background: #0ff;
             color: #000;
             border: none;
-            border-radius: 30px; /* More rounded */
+            border-radius: 30px; /* More rounded corners */
             font-weight: bold;
             text-decoration: none;
-            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s; /* Smooth transitions */
             box-shadow: 0 0 15px #0ff; /* Button glow */
             text-transform: uppercase; /* Uppercase text */
-            letter-spacing: 1px; /* Spacing between letters */
+            letter-spacing: 1px; /* Letter spacing for button text */
             cursor: pointer;
         }
 
         .btn:hover {
-            transform: scale(1.1); /* More pronounced scale effect */
+            transform: scale(1.1); /* Scale up on hover */
             background: #00e6e6; /* Brighter blue on hover */
             box-shadow: 0 0 25px #0ff; /* Stronger glow on hover */
         }
 
-        /* Section title styling */
+        /* Styling for section titles */
         h2.section-title {
             text-align: center;
             color: #0ff;
-            font-size: 2.8rem; /* Larger titles */
+            font-size: 2.8rem;
             margin-bottom: 2.5rem;
             text-shadow: 0 0 15px #0ff, 0 0 25px #0ff; /* Stronger glow */
-            border-bottom: 2px solid #0ff; /* Underline effect */
-            display: inline-block; /* To make border-bottom fit text */
+            border-bottom: 2px solid #0ff; /* Underline effect with neon border */
+            display: inline-block; /* To make border-bottom fit text width */
             padding-bottom: 0.5rem;
         }
 
-        /* List and paragraph styling */
+        /* Styling for lists and paragraphs */
         ul, p {
             max-width: 800px;
             margin: 0 auto;
-            font-size: 1.1rem; /* Slightly larger font */
+            font-size: 1.1rem;
             color: #ddd;
-            line-height: 1.8; /* Better readability */
+            line-height: 1.8;
         }
 
         ul li {
-            background: #1a1a1a;
-            margin-bottom: 1.2rem; /* More space between list items */
-            padding: 1.2rem; /* More padding */
-            border-left: 6px solid #0ff; /* Thicker neon border */
-            border-radius: 8px; /* More rounded corners */
+            background: #1a1a1a; /* Dark background for list items */
+            margin-bottom: 1.2rem;
+            padding: 1.2rem;
+            border-left: 6px solid #0ff; /* Thicker neon border on the left */
+            border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); /* Subtle glow for list items */
-            transition: transform 0.2s;
+            transition: transform 0.2s; /* Smooth transition on hover */
         }
 
         ul li:hover {
-            transform: translateX(5px); /* Slight shift on hover */
+            transform: translateX(5px); /* Slight shift to the right on hover */
         }
 
-        /* Specific list styling for tracks */
+        /* Specific styling for the tracks list */
         #track ul {
-            max-width: 550px; /* Adjust width for track list */
+            max-width: 550px;
             text-align: center; /* Center align track items */
         }
 
         /* Footer styling */
         footer {
-            background: #111;
-            text-align: center;
+            /* Changed background to solid dark grey to ensure clear visibility */
+            background: #111; /* Solid dark grey background */
             padding: 2rem;
             font-size: 0.9rem;
-            color: #666;
-            border-top: 1px solid #333; /* Subtle border top */
-            margin-top: 2rem; /* Add some space above footer */
+            color: #fff; /* White text color for better visibility */
+            /* Made border thicker and more pronounced for clear definition */
+            border-top: 3px solid #0ff; /* Thicker neon blue border at the top */
+            /* Increased box shadow for a stronger glow effect */
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.7); /* Enhanced glow effect to clearly define footer */
+            margin-top: 2rem; /* Space above the footer */
+            position: relative; /* Essential for z-index and ensuring it's on top of canvas */
+            z-index: 10; /* Ensures footer is above the matrix canvas */
+            display: flex;
+            flex-direction: column; /* Stack content vertically */
+            align-items: center; /* Center align items horizontally */
+            gap: 1rem; /* Space between flex items */
         }
 
-        /* Responsive adjustments */
+        footer .footer-content-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%; /* Take full width of the footer */
+            max-width: 1000px; /* Max width for content */
+            padding: 0 1rem; /* Padding to the sides */
+            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+            gap: 1rem; /* Space between items in the row */
+        }
+
+        footer .location-info {
+            display: flex;
+            align-items: center;
+            color: #0ff; /* Neon blue for location text */
+            font-size: 1.1rem; /* Slightly larger font for location */
+        }
+
+        footer .location-info i {
+            color: #0ff; /* Neon blue for the map marker icon */
+            margin-right: 0.5rem;
+            font-size: 1.3rem; /* Slightly larger icon */
+        }
+
+        footer .social-icons {
+            display: flex; /* Use flexbox for social icons */
+            justify-content: center; /* Center icons if they wrap */
+        }
+
+        footer .social-icons a {
+            color: #0ff; /* Neon blue icons for visibility */
+            font-size: 1.6rem; /* Slightly larger icons */
+            margin-left: 1rem;
+            transition: color 0.3s, transform 0.2s; /* Smooth transition on hover */
+            text-decoration: none; /* Remove underline for icons */
+        }
+
+        footer .social-icons a:hover {
+            color: #fff; /* White on hover */
+            transform: scale(1.1); /* Slight scale effect on hover */
+        }
+
+        footer .copyright {
+            color: #ccc; /* Slightly grey for copyright text */
+            font-size: 0.95rem; /* Slightly larger */
+            margin-top: 1rem; /* Space above copyright text */
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Responsive adjustments for smaller screens */
         @media (max-width: 768px) {
             nav {
-                flex-direction: column;
+                flex-direction: column; /* Stack nav items vertically */
                 padding: 1rem;
             }
             nav h1 {
                 margin-bottom: 1rem;
             }
             nav div a {
-                margin: 0 0.5rem;
+                margin: 0 0.5rem; /* Adjust spacing for stacked links */
             }
             .hero h2 {
                 font-size: 2.5rem;
@@ -210,7 +271,17 @@
                 padding: 0 1rem;
             }
             section {
-                padding: 6rem 1rem 3rem;
+                padding: 6rem 1rem 3rem; /* Adjust section padding */
+            }
+            footer .footer-content-row {
+                flex-direction: column; /* Stack location and social icons vertically in footer */
+                text-align: center;
+            }
+            footer .social-icons {
+                margin-top: 1rem; /* Add space between stacked footer items */
+            }
+            footer .social-icons a {
+                margin: 0 0.5rem; /* Adjust margin for stacked icons */
             }
         }
     </style>
@@ -288,8 +359,22 @@
     </section>
 
     <footer>
-        🗓 July 25th & 26th, 2025 | 📍 KGISL Campus <br/>
-        &copy; 2025 Hackathon. All rights reserved.
+        <div class="footer-content-row">
+            <div class="location-info">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>KGISL Campus, Coimbatore</span>
+            </div>
+            <div class="social-icons">
+                <!-- Social media links, replace href="#" with actual URLs -->
+                <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://discord.com" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            🗓 July 25th & 26th, 2025 | &copy; 2025 Hackathon. All rights reserved.
+        </div>
     </footer>
 
     <script>
@@ -298,45 +383,52 @@
 
         let width = canvas.width = window.innerWidth;
         let height = canvas.height = window.innerHeight;
-        // The characters string now includes alphanumeric characters, as requested.
+        // Characters for the matrix effect (alphanumeric)
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        // Increased font size significantly to make characters big and visible.
-        const fontSize = 35; // Increased from 20 to 35
+        // Font size for matrix characters (made larger for visibility)
+        const fontSize = 35;
+        // Calculate number of columns based on width and font size
         const columns = Math.floor(width / fontSize);
+        // Array to store the Y-coordinate of each column's character
         const drops = [];
 
         // Initialize drops array for each column to start at the top
         for (let i = 0; i < columns; i++) {
-            drops[i] = 1;
+            drops[i] = 1; // Start each drop at the first row (y=1)
         }
 
         // Function to draw the matrix animation
         function drawMatrix() {
+            // Darken the canvas with a semi-transparent black to create the falling effect
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, width, height);
 
-            ctx.fillStyle = '#0000cc';
-            ctx.font = `${fontSize}px monospace`;
+            ctx.fillStyle = '#0000cc'; // Set the blue color for the matrix characters
+            ctx.font = `${fontSize}px monospace`; // Set font style and size
 
+            // Loop through each drop (column)
             for (let i = 0; i < drops.length; i++) {
+                // Get a random character from the defined set
                 const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                // Draw the character at its current position
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
                 // If the character has reached the bottom of the screen, reset it to the top
                 // with a random chance to create a more natural falling effect
                 if (drops[i] * fontSize > height && Math.random() > 0.975) {
-                    drops[i] = 0;
+                    drops[i] = 0; // Reset to the top
                 }
-                drops[i]++; // Move the character down by one unit per frame
+                drops[i]++; // Move the character down for the next frame
             }
         }
 
         // Variable to control animation speed
         let frameCount = 0;
-        // The animation speed factor remains at 8, as previously set for "a little slow".
-        const animationSpeedFactor = 8;
+        // This factor controls how often the matrix updates.
+        // A higher number means fewer updates per second, resulting in a slower animation.
+        const animationSpeedFactor = 8; // Updates every 8 animation frames
 
-        // Animation loop with speed control
+        // Animation loop using requestAnimationFrame for smooth animation
         function animate() {
             requestAnimationFrame(animate);
 
@@ -351,7 +443,7 @@
         window.addEventListener('resize', () => {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
-            // Re-calculate columns and reset drops array based on the new font size and width
+            // Recalculate columns and reset drops array based on the new dimensions
             const newColumns = Math.floor(width / fontSize);
             drops.length = newColumns; // Resize drops array
             for (let i = 0; i < newColumns; i++) {
