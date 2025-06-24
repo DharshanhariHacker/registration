@@ -1,219 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Solve4Society Hackathon</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-    <style>
-        /* General styling */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            min-height: 100%;
-            font-family: 'Orbitron', sans-serif;
-            background: #000;
-            color: #fff;
-            scroll-behavior: smooth;
-            overflow-x: hidden; /* Prevent horizontal scroll due to canvas */
-        }
-
-        /* Canvas for matrix animation */
-        canvas {
-            position: fixed; /* Fixed position to cover the whole viewport */
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1; /* Behind other content */
-        }
-
-        /* Navigation bar styling */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background: rgba(0, 0, 0, 0.85); /* Slightly transparent background */
-            position: fixed; /* Fixed at the top */
-            top: 0;
-            width: 100%;
-            z-index: 1000; /* On top of everything */
-            border-bottom: 2px solid #0ff; /* Neon border */
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.7); /* Glow effect */
-        }
-
-        nav h1 {
-            color: #0ff; /* Neon blue color */
-            font-size: 1.5rem;
-            text-shadow: 0 0 10px #0ff; /* Text glow */
-        }
-
-        nav div a {
-            color: #fff;
-            margin-left: 1.5rem;
-            text-decoration: none;
-            transition: color 0.3s, text-shadow 0.3s; /* Smooth transitions */
-            padding: 0.5rem 0.8rem; /* Add padding for better click area */
-            border-radius: 5px; /* Slightly rounded corners */
-        }
-
-        nav div a:hover {
-            color: #0ff; /* Change color on hover */
-            text-shadow: 0 0 8px #0ff; /* Add glow on hover */
-        }
-
-        /* Section general styling */
-        section {
-            padding: 8rem 2rem 5rem; /* Increased top padding to account for fixed nav */
-            position: relative;
-            z-index: 10; /* Above the matrix background */
-            background: rgba(0, 0, 0, 0.7); /* Semi-transparent black for content readability */
-            margin-top: 0; /* No margin on top */
-            min-height: fit-content; /* Ensure sections take enough height for content */
-        }
-
-        /* Hero section specific styling */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding-top: 0; /* No extra padding for hero */
-        }
-
-        .hero h2 {
-            font-size: 3.5rem; /* Slightly larger for impact */
-            color: #0ff;
-            text-shadow: 0 0 20px #0ff, 0 0 30px #0ff; /* More intense glow */
-            animation: pulse 2s infinite alternate; /* Subtle pulse animation */
-        }
-
-        @keyframes pulse {
-            from { text-shadow: 0 0 15px #0ff; }
-            to { text-shadow: 0 0 25px #0ff, 0 0 40px #0ff; }
-        }
-
-        .hero p {
-            font-size: 1.3rem; /* Slightly larger text */
-            margin-top: 1.5rem;
-            max-width: 700px; /* Wider text block */
-            color: #ccc;
-            line-height: 1.8;
-        }
-
-        /* Button styling */
-        .btn {
-            margin-top: 2.5rem; /* More space above button */
-            padding: 1.2rem 2.5rem; /* Larger button */
-            background: #0ff;
-            color: #000;
-            border: none;
-            border-radius: 30px; /* More rounded */
-            font-weight: bold;
-            text-decoration: none;
-            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
-            box-shadow: 0 0 15px #0ff; /* Button glow */
-            text-transform: uppercase; /* Uppercase text */
-            letter-spacing: 1px; /* Spacing between letters */
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            transform: scale(1.1); /* More pronounced scale effect */
-            background: #00e6e6; /* Brighter blue on hover */
-            box-shadow: 0 0 25px #0ff; /* Stronger glow on hover */
-        }
-
-        /* Section title styling */
-        h2.section-title {
-            text-align: center;
-            color: #0ff;
-            font-size: 2.8rem; /* Larger titles */
-            margin-bottom: 2.5rem;
-            text-shadow: 0 0 15px #0ff, 0 0 25px #0ff; /* Stronger glow */
-            border-bottom: 2px solid #0ff; /* Underline effect */
-            display: inline-block; /* To make border-bottom fit text */
-            padding-bottom: 0.5rem;
-        }
-
-        /* List and paragraph styling */
-        ul, p {
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: 1.1rem; /* Slightly larger font */
-            color: #ddd;
-            line-height: 1.8; /* Better readability */
-        }
-
-        ul li {
-            background: #1a1a1a;
-            margin-bottom: 1.2rem; /* More space between list items */
-            padding: 1.2rem; /* More padding */
-            border-left: 6px solid #0ff; /* Thicker neon border */
-            border-radius: 8px; /* More rounded corners */
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); /* Subtle glow for list items */
-            transition: transform 0.2s;
-        }
-
-        ul li:hover {
-            transform: translateX(5px); /* Slight shift on hover */
-        }
-
-        /* Specific list styling for tracks */
-        #track ul {
-            max-width: 550px; /* Adjust width for track list */
-            text-align: center; /* Center align track items */
-        }
-
-        /* Footer styling */
-        footer {
-            background: #111;
-            text-align: center;
-            padding: 2rem;
-            font-size: 0.9rem;
-            color: #666;
-            border-top: 1px solid #333; /* Subtle border top */
-            margin-top: 2rem; /* Add some space above footer */
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            nav {
-                flex-direction: column;
-                padding: 1rem;
-            }
-            nav h1 {
-                margin-bottom: 1rem;
-            }
-            nav div a {
-                margin: 0 0.5rem;
-            }
-            .hero h2 {
-                font-size: 2.5rem;
-            }
-            .hero p {
-                font-size: 1rem;
-                padding: 0 1rem;
-            }
-            h2.section-title {
-                font-size: 2rem;
-            }
-            ul, p {
-                font-size: 0.9rem;
-                padding: 0 1rem;
-            }
-            section {
-                padding: 6rem 1rem 3rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solve4Society Hackathon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background-color: #000;
+      color: #fff;
+      scroll-behavior: smooth;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: #111;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+    nav h1 { color: #0ff; font-size: 1.5rem; }
+    nav a {
+      color: #fff;
+      margin-left: 1.5rem;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    nav a:hover { color: #0ff; }
+    section {
+      padding: 5rem 2rem;
+    }
+    .hero {
+      background: url('backk1.jpg') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding-top: 5rem;
+    }
+    .hero h2 {
+      font-size: 3rem;
+      color: #0ff;
+      text-shadow: 0 0 15px #0ff;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      max-width: 600px;
+      color: #ccc;
+    }
+    .btn {
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      background: #0ff;
+      color: #000;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: transform 0.3s;
+    }
+    .btn:hover { transform: scale(1.05); background: #00c9c9; }
+    h2.section-title {
+      text-align: center;
+      color: #0ff;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 10px #0ff;
+    }
+    ul, p {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 1rem;
+      color: #ddd;
+      line-height: 1.6;
+    }
+    ul li {
+      background: #1a1a1a;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-left: 5px solid #0ff;
+      border-radius: 6px;
+    }
+    footer {
+      background: #111;
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    @media (max-width: 768px) {
+      .hero h2 { font-size: 2rem; }
+    }
+  </style>
 </head>
 <body>
     <canvas id="matrixCanvas"></canvas>
