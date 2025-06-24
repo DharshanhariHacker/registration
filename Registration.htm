@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solve4Society Hackathon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background-color: #000;
+      color: #fff;
+      scroll-behavior: smooth;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: #111;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+    nav h1 { color: #0ff; font-size: 1.5rem; }
+    nav a {
+      color: #fff;
+      margin-left: 1.5rem;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    nav a:hover { color: #0ff; }
+    section {
+      padding: 5rem 2rem;
+    }
+    .hero {
+      background: url('backk1.jpg') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding-top: 5rem;
+    }
+    .hero h2 {
+      font-size: 3rem;
+      color: #0ff;
+      text-shadow: 0 0 15px #0ff;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      max-width: 600px;
+      color: #ccc;
+    }
+    .btn {
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      background: #0ff;
+      color: #000;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: transform 0.3s;
+    }
+    .btn:hover { transform: scale(1.05); background: #00c9c9; }
+    h2.section-title {
+      text-align: center;
+      color: #0ff;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 10px #0ff;
+    }
+    ul, p {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 1rem;
+      color: #ddd;
+      line-height: 1.6;
+    }
+    ul li {
+      background: #1a1a1a;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-left: 5px solid #0ff;
+      border-radius: 6px;
+    }
+    footer {
+      background: #111;
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    @media (max-width: 768px) {
+      .hero h2 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>Hackathon 2K25</h1>
+    <div>
+      <a href="#about">About</a>
+      <a href="#track">Track</a>
+      <a href="#why">Why</a>
+      <a href="#rules">Rules</a>
+      <a href="#problems">Problems</a>
+      <a href="https://forms.gle/YOUR_GOOGLE_FORM_LINK" class="btn" target="_blank">Register</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h2>Hackathon 2K25</h2>
+    <p>Gear up for a 24-hour tech adventure at our inter-college hackathon! 🚀<br/>Code, Create, Collaborate & Compete!</p>
+    <a href="https://forms.gle/YOUR_GOOGLE_FORM_LINK" class="btn" target="_blank">Register Now</a>
+  </section>
+
+  <section id="about">
+    <h2 class="section-title">About Us</h2>
+    <p>
+      Welcome to Hackathon 2K25, the premier hackathon experience brought to you by the Department of Computer Science!<br/><br/>
+      Join us on July 25th and 26th, 2025 for a thrilling 24-hour journey of innovation, creativity, and collaboration at our campus! 🚀<br/><br/>
+      Exciting resources and challenges await — get ready to showcase your coding skills and build solutions that matter.
+    </p>
+  </section>
+
+  <section id="track" style="text-align: center;">
+    <h2 class="section-title" style="display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 2.5rem; color: #0ff; text-shadow: 0 0 15px #0ff;">
+      🔗Tracks
+    </h2>
+    <ul style="list-style-type: none; padding-left: 0; max-width: 500px; margin: 2rem auto; text-align: left;">
+      <li style="margin: 0.5rem 0; font-size: 1.2rem;">🌟 <strong>AI / ML</strong></li>
+      <li style="margin: 0.5rem 0; font-size: 1.2rem;">🌟 <strong>BlockChain</strong></li>
+      <li style="margin: 0.5rem 0; font-size: 1.2rem;">🌟 <strong>CyberSecurity</strong></li>
+      <li style="margin: 0.5rem 0; font-size: 1.2rem;">🌟 <strong>Healthcare</strong></li>
+      <li style="margin: 0.5rem 0; font-size: 1.2rem;">🌟 <strong>EdTech</strong></li>
+    </ul>
+  </section>
+
+  <section id="problems">
+    <h2 class="section-title">💡 Problem Statements</h2>
+    <ul>
+      <li>Blockchain-based Anonymous Police Complaint Platform</li>
+      <li>Smart Waste Management System using AI</li>
+      <li>IoT-driven Agriculture and Smart Irrigation</li>
+      <li>AI-based Public Safety Monitoring Tools</li>
+      <li>Apps for Mental Health Awareness & Support</li>
+    </ul>
+  </section>
+
+  <section id="why">
+    <h2 class="section-title">🛠️ Why Participate?</h2>
+    <ul>
+      <li><strong>Learn:</strong> Gain hands-on experience with the latest technologies.</li>
+      <li><strong>Build:</strong> Create impactful solutions and showcase your skills.</li>
+      <li><strong>Collaborate:</strong> Work with like-minded innovators from diverse backgrounds.</li>
+      <li><strong>Win:</strong> Exciting prizes and opportunities await the most creative minds! 🏆</li>
+    </ul>
+  </section>
+
+  <section id="rules">
+    <h2 class="section-title">📜 Rules</h2>
+    <ul>
+      <li>Team size: 2–3 members from the same institution</li>
+      <li>No plagiarism — all work must be original</li>
+      <li>Internet and open-source resources are permitted</li>
+      <li>24-hour offline event — bring your own devices</li>
+    </ul>
+  </section>
+
+  <footer>
+    📅 July 25th & 26th, 2025 | 📍 KGISL Campus <br/>
+    &copy; 2025 Hackathon. All rights reserved.
+  </footer>
+</body>
+</html>
