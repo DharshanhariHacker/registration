@@ -1,181 +1,368 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solve4Society Hackathon</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Orbitron', sans-serif;
-      background-color: #000;
-      color: #fff;
-      scroll-behavior: smooth;
-    }
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background: #111;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-    }
-    nav h1 { color: #0ff; font-size: 1.5rem; }
-    nav a {
-      color: #fff;
-      margin-left: 1.5rem;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    nav a:hover { color: #0ff; }
-    section {
-      padding: 5rem 2rem;
-    }
-    .hero {
-      background: url('backk1.jpg') no-repeat center center/cover;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding-top: 5rem;
-    }
-    .hero h2 {
-      font-size: 3rem;
-      color: #0ff;
-      text-shadow: 0 0 15px #0ff;
-    }
-    .hero p {
-      font-size: 1.2rem;
-      margin-top: 1rem;
-      max-width: 600px;
-      color: #ccc;
-    }
-    .btn {
-      margin-top: 2rem;
-      padding: 1rem 2rem;
-      background: #0ff;
-      color: #000;
-      border: none;
-      border-radius: 25px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: transform 0.3s;
-    }
-    .btn:hover { transform: scale(1.05); background: #00c9c9; }
-    h2.section-title {
-      text-align: center;
-      color: #0ff;
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-      text-shadow: 0 0 10px #0ff;
-    }
-    ul, p {
-      max-width: 800px;
-      margin: 0 auto;
-      font-size: 1rem;
-      color: #ddd;
-      line-height: 1.6;
-    }
-    ul li {
-      background: #1a1a1a;
-      margin-bottom: 1rem;
-      padding: 1rem;
-      border-left: 5px solid #0ff;
-      border-radius: 6px;
-    }
-    footer {
-      background: #111;
-      text-align: center;
-      padding: 2rem;
-      font-size: 0.9rem;
-      color: #666;
-    }
-    @media (max-width: 768px) {
-      .hero h2 { font-size: 2rem; }
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solve4Society Hackathon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <style>
+        /* General styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            min-height: 100%;
+            font-family: 'Orbitron', sans-serif;
+            background: #000;
+            color: #fff;
+            scroll-behavior: smooth;
+            overflow-x: hidden; /* Prevent horizontal scroll due to canvas */
+        }
+
+        /* Canvas for matrix animation */
+        canvas {
+            position: fixed; /* Fixed position to cover the whole viewport */
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1; /* Behind other content */
+        }
+
+        /* Navigation bar styling */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(0, 0, 0, 0.85); /* Slightly transparent background */
+            position: fixed; /* Fixed at the top */
+            top: 0;
+            width: 100%;
+            z-index: 1000; /* On top of everything */
+            border-bottom: 2px solid #0ff; /* Neon border */
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.7); /* Glow effect */
+        }
+
+        nav h1 {
+            color: #0ff; /* Neon blue color */
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px #0ff; /* Text glow */
+        }
+
+        nav div a {
+            color: #fff;
+            margin-left: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s, text-shadow 0.3s; /* Smooth transitions */
+            padding: 0.5rem 0.8rem; /* Add padding for better click area */
+            border-radius: 5px; /* Slightly rounded corners */
+        }
+
+        nav div a:hover {
+            color: #0ff; /* Change color on hover */
+            text-shadow: 0 0 8px #0ff; /* Add glow on hover */
+        }
+
+        /* Section general styling */
+        section {
+            padding: 8rem 2rem 5rem; /* Increased top padding to account for fixed nav */
+            position: relative;
+            z-index: 10; /* Above the matrix background */
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent black for content readability */
+            margin-top: 0; /* No margin on top */
+            min-height: fit-content; /* Ensure sections take enough height for content */
+        }
+
+        /* Hero section specific styling */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 0; /* No extra padding for hero */
+        }
+
+        .hero h2 {
+            font-size: 3.5rem; /* Slightly larger for impact */
+            color: #0ff;
+            text-shadow: 0 0 20px #0ff, 0 0 30px #0ff; /* More intense glow */
+            animation: pulse 2s infinite alternate; /* Subtle pulse animation */
+        }
+
+        @keyframes pulse {
+            from { text-shadow: 0 0 15px #0ff; }
+            to { text-shadow: 0 0 25px #0ff, 0 0 40px #0ff; }
+        }
+
+        .hero p {
+            font-size: 1.3rem; /* Slightly larger text */
+            margin-top: 1.5rem;
+            max-width: 700px; /* Wider text block */
+            color: #ccc;
+            line-height: 1.8;
+        }
+
+        /* Button styling */
+        .btn {
+            margin-top: 2.5rem; /* More space above button */
+            padding: 1.2rem 2.5rem; /* Larger button */
+            background: #0ff;
+            color: #000;
+            border: none;
+            border-radius: 30px; /* More rounded */
+            font-weight: bold;
+            text-decoration: none;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 15px #0ff; /* Button glow */
+            text-transform: uppercase; /* Uppercase text */
+            letter-spacing: 1px; /* Spacing between letters */
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: scale(1.1); /* More pronounced scale effect */
+            background: #00e6e6; /* Brighter blue on hover */
+            box-shadow: 0 0 25px #0ff; /* Stronger glow on hover */
+        }
+
+        /* Section title styling */
+        h2.section-title {
+            text-align: center;
+            color: #0ff;
+            font-size: 2.8rem; /* Larger titles */
+            margin-bottom: 2.5rem;
+            text-shadow: 0 0 15px #0ff, 0 0 25px #0ff; /* Stronger glow */
+            border-bottom: 2px solid #0ff; /* Underline effect */
+            display: inline-block; /* To make border-bottom fit text */
+            padding-bottom: 0.5rem;
+        }
+
+        /* List and paragraph styling */
+        ul, p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem; /* Slightly larger font */
+            color: #ddd;
+            line-height: 1.8; /* Better readability */
+        }
+
+        ul li {
+            background: #1a1a1a;
+            margin-bottom: 1.2rem; /* More space between list items */
+            padding: 1.2rem; /* More padding */
+            border-left: 6px solid #0ff; /* Thicker neon border */
+            border-radius: 8px; /* More rounded corners */
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); /* Subtle glow for list items */
+            transition: transform 0.2s;
+        }
+
+        ul li:hover {
+            transform: translateX(5px); /* Slight shift on hover */
+        }
+
+        /* Specific list styling for tracks */
+        #track ul {
+            max-width: 550px; /* Adjust width for track list */
+            text-align: center; /* Center align track items */
+        }
+
+        /* Footer styling */
+        footer {
+            background: #111;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            color: #666;
+            border-top: 1px solid #333; /* Subtle border top */
+            margin-top: 2rem; /* Add some space above footer */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            nav h1 {
+                margin-bottom: 1rem;
+            }
+            nav div a {
+                margin: 0 0.5rem;
+            }
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+            h2.section-title {
+                font-size: 2rem;
+            }
+            ul, p {
+                font-size: 0.9rem;
+                padding: 0 1rem;
+            }
+            section {
+                padding: 6rem 1rem 3rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <nav>
-    <h1>Hackathon 2K25</h1>
-    <div>
-      <a href="#about">About</a>
-      <a href="#track">Track</a>
-      <a href="#why">Why</a>
-      <a href="#rules">Rules</a>
-      <a href="#problems">Problems</a>
-      <a href="https://forms.gle/YOUR_GOOGLE_FORM_LINK" class="btn" target="_blank">Register</a>
-    </div>
-  </nav>
+    <canvas id="matrixCanvas"></canvas>
 
-  <section class="hero">
-    <h2>Hackathon 2K25</h2>
-    <p>Gear up for a 24-hour tech adventure at our inter-college hackathon! 🚀<br/>Code, Create, Collaborate & Compete!</p>
-    <a href="https://forms.gle/YOUR_GOOGLE_FORM_LINK" class="btn" target="_blank">Register Now</a>
-  </section>
+    <nav>
+        <h1>Hackathon 2K25</h1>
+        <div>
+            <a href="#about">About</a>
+            <a href="#track">Track</a>
+            <a href="#problems">Problems</a>
+            <a href="#why">Why</a>
+            <a href="#rules">Rules</a>
+            <a href="#" class="btn">Register</a>
+        </div>
+    </nav>
 
-  <section id="about">
-    <h2 class="section-title">About Us</h2>
-    <p>
-      Welcome to Hackathon 2K25, the premier hackathon experience brought to you by the Department of Computer Science!<br/><br/>
-      Join us on July 25th and 26th, 2025 for a thrilling 24-hour journey of innovation, creativity, and collaboration at our campus! 🚀<br/><br/>
-      Exciting resources and challenges await — get ready to showcase your coding skills and build solutions that matter.
-    </p>
-  </section>
+    <section class="hero">
+        <h2>Hackathon 2K25</h2>
+        <p>Gear up for a 24-hour tech adventure at our inter‑college hackathon! 🚀<br/>Code, Create, Collaborate & Compete!</p>
+        <a href="#" class="btn">Register Now</a>
+    </section>
 
-  <section id="track" style="text-align: center;">
-    <h2 class="section-title" style="display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 2.5rem; color: #0ff; text-shadow: 0 0 15px #0ff;">
-      🔗Tracks
-    </h2>
-    <ul style="list-style-type: none; padding-left: 0; max-width: 500px; margin: 2rem auto; text-align: left;">
-      <li style="margin: 0.5rem 0; font-size: 1.2rem;">🌟 <strong>AI / ML</strong></li>
-      <li style="margin: 0.5rem 0; font-size: 1.2rem;">🌟 <strong>BlockChain</strong></li>
-      <li style="margin: 0.5rem 0; font-size: 1.2rem;">🌟 <strong>CyberSecurity</strong></li>
-      <li style="margin: 0.5rem 0; font-size: 1.2rem;">🌟 <strong>Healthcare</strong></li>
-      <li style="margin: 0.5rem 0; font-size: 1.2rem;">🌟 <strong>EdTech</strong></li>
-    </ul>
-  </section>
+    <section id="about">
+        <h2 class="section-title">About Us</h2>
+        <p>
+            Welcome to Hackathon 2K25, the premier hackathon experience brought to you by the Department of Computer Science!<br/><br/>
+            Join us on July 25th and 26th, 2025 for a thrilling 24-hour journey of innovation, creativity, and collaboration at our campus! 🚀<br/><br/>
+            Exciting resources and challenges await — get ready to showcase your coding skills and build solutions that matter.
+        </p>
+    </section>
 
-  <section id="problems">
-    <h2 class="section-title">💡 Problem Statements</h2>
-    <ul>
-      <li>Blockchain-based Anonymous Police Complaint Platform</li>
-      <li>Smart Waste Management System using AI</li>
-      <li>IoT-driven Agriculture and Smart Irrigation</li>
-      <li>AI-based Public Safety Monitoring Tools</li>
-      <li>Apps for Mental Health Awareness & Support</li>
-    </ul>
-  </section>
+    <section id="track">
+        <h2 class="section-title">🔗 Tracks</h2>
+        <ul style="list-style-type: none; padding-left: 0; max-width: 500px; margin: 2rem auto; text-align: left;">
+            <li>🌟 <strong>AI / ML</strong></li>
+            <li>🌟 <strong>BlockChain</strong></li>
+            <li>🌟 <strong>CyberSecurity</strong></li>
+            <li>🌟 <strong>Healthcare</strong></li>
+            <li>🌟 <strong>EdTech</strong></li>
+        </ul>
+    </section>
 
-  <section id="why">
-    <h2 class="section-title">🛠️ Why Participate?</h2>
-    <ul>
-      <li><strong>Learn:</strong> Gain hands-on experience with the latest technologies.</li>
-      <li><strong>Build:</strong> Create impactful solutions and showcase your skills.</li>
-      <li><strong>Collaborate:</strong> Work with like-minded innovators from diverse backgrounds.</li>
-      <li><strong>Win:</strong> Exciting prizes and opportunities await the most creative minds! 🏆</li>
-    </ul>
-  </section>
+    <section id="problems">
+        <h2 class="section-title">💡 Problem Statements</h2>
+        <ul>
+            <li>Blockchain-based Anonymous Police Complaint Platform</li>
+            <li>Smart Waste Management System using AI</li>
+            <li>IoT-driven Agriculture and Smart Irrigation</li>
+            <li>AI-based Public Safety Monitoring Tools</li>
+            <li>Apps for Mental Health Awareness & Support</li>
+        </ul>
+    </section>
 
-  <section id="rules">
-    <h2 class="section-title">📜 Rules</h2>
-    <ul>
-      <li>Team size: 2–3 members from the same institution</li>
-      <li>No plagiarism — all work must be original</li>
-      <li>Internet and open-source resources are permitted</li>
-      <li>24-hour offline event — bring your own devices</li>
-    </ul>
-  </section>
+    <section id="why">
+        <h2 class="section-title">🛠️ Why Participate?</h2>
+        <ul>
+            <li><strong>Learn:</strong> Gain hands-on experience with the latest technologies.</li>
+            <li><strong>Build:</strong> Create impactful solutions and showcase your skills.</li>
+            <li><strong>Collaborate:</strong> Work with like-minded innovators from diverse backgrounds.</li>
+            <li><strong>Win:</strong> Exciting prizes and opportunities await the most creative minds! 🏆</li>
+        </ul>
+    </section>
 
-  <footer>
-    📅 July 25th & 26th, 2025 | 📍 KGISL Campus <br/>
-    &copy; 2025 Hackathon. All rights reserved.
-  </footer>
+    <section id="rules">
+        <h2 class="section-title">📜 Rules</h2>
+        <ul>
+            <li>Team size: 2–3 members from the same institution</li>
+            <li>No plagiarism — all work must be original</li>
+            <li>Internet and open-source resources are permitted</li>
+            <li>24-hour offline event — bring your own devices</li>
+        </ul>
+    </section>
+
+    <footer>
+        🗓 July 25th & 26th, 2025 | 📍 KGISL Campus <br/>
+        &copy; 2025 Hackathon. All rights reserved.
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        // The characters string now includes alphanumeric characters, as requested.
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        // Increased font size significantly to make characters big and visible.
+        const fontSize = 35; // Increased from 20 to 35
+        const columns = Math.floor(width / fontSize);
+        const drops = [];
+
+        // Initialize drops array for each column to start at the top
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+
+        // Function to draw the matrix animation
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.fillStyle = '#0000cc';
+            ctx.font = `${fontSize}px monospace`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                // If the character has reached the bottom of the screen, reset it to the top
+                // with a random chance to create a more natural falling effect
+                if (drops[i] * fontSize > height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++; // Move the character down by one unit per frame
+            }
+        }
+
+        // Variable to control animation speed
+        let frameCount = 0;
+        // The animation speed factor remains at 8, as previously set for "a little slow".
+        const animationSpeedFactor = 8;
+
+        // Animation loop with speed control
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Only draw and update the matrix every 'animationSpeedFactor' frames
+            frameCount++;
+            if (frameCount % animationSpeedFactor === 0) {
+                drawMatrix();
+            }
+        }
+
+        // Adjust canvas size and re-initialize drops on window resize
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            // Re-calculate columns and reset drops array based on the new font size and width
+            const newColumns = Math.floor(width / fontSize);
+            drops.length = newColumns; // Resize drops array
+            for (let i = 0; i < newColumns; i++) {
+                drops[i] = Math.floor(Math.random() * (height / fontSize)); // Randomize initial positions
+            }
+        });
+
+        // Start the animation when the window loads
+        window.onload = function() {
+            animate();
+        };
+    </script>
 </body>
 </html>
